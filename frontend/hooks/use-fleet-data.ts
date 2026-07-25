@@ -31,7 +31,7 @@ export function useFleetData() {
   const [isLoading, setIsLoading] = useState(true)
 
   const isAdmin = currentUser?.role === 'ADMIN'
-  const canManageFleet = currentUser?.role === 'ADMIN' || currentUser?.role === 'SUPERVISEUR'
+  const canManageFleet = currentUser?.role === 'ADMIN' || currentUser?.role === 'SUPERVISEUR' || currentUser?.role === 'AGENT'
 
   const refreshData = useCallback(async () => {
     if (!isAuthenticated) return

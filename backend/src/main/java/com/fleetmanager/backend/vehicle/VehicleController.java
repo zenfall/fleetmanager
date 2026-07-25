@@ -31,13 +31,13 @@ public class VehicleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole(\u0027ADMIN\u0027,\u0027SUPERVISEUR\u0027)")
+    @PreAuthorize("hasAnyRole('ADMIN','SUPERVISEUR','AGENT')")
     public VehicleDto create(@Valid @RequestBody VehicleRequest request) {
         return vehicleService.create(request);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole(\u0027ADMIN\u0027,\u0027SUPERVISEUR\u0027)")
+    @PreAuthorize("hasAnyRole('ADMIN','SUPERVISEUR','AGENT')")
     public VehicleDto update(@PathVariable UUID id, @Valid @RequestBody VehicleRequest request) {
         return vehicleService.update(id, request);
     }
