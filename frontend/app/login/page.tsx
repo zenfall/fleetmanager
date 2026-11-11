@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Truck, MapPin, Gauge, ShieldCheck, Loader2, Eye, EyeOff, AlertCircle } from 'lucide-react'
+import { MapPin, Gauge, ShieldCheck, Loader2, Eye, EyeOff, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -68,8 +68,8 @@ function LoginForm() {
         <div className="absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-[oklch(0.65_0.2_145)] opacity-10 blur-3xl" />
 
         <div className="relative z-10 flex items-center gap-2.5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 backdrop-blur">
-            <Truck className="h-5 w-5" />
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white p-1.5">
+            <img src="/logo-symbole.png" alt="Good Entrepreneur" className="h-full w-full object-contain" />
           </div>
           <span className="text-lg font-semibold tracking-tight">FleetManager</span>
         </div>
@@ -110,9 +110,7 @@ function LoginForm() {
       <div className="flex items-center justify-center p-6 sm:p-10">
         <div className="w-full max-w-sm space-y-8">
           <div className="lg:hidden flex items-center gap-2.5 justify-center mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Truck className="h-5 w-5" />
-            </div>
+            <img src="/logo-symbole.png" alt="Good Entrepreneur" className="h-10 w-auto" />
             <span className="text-lg font-semibold tracking-tight">FleetManager</span>
           </div>
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Car, Menu, X, Settings, Bell, LogOut, User, ChevronDown, LayoutDashboard, ListFilter, Users } from 'lucide-react'
+import { Menu, X, Settings, Bell, LogOut, User, ChevronDown, LayoutDashboard, ListFilter, Users } from 'lucide-react'
 import { useFleetData } from '@/hooks/use-fleet-data'
 import { useAuth } from '@/lib/auth-context'
 import { StatsCards } from '@/components/stats-cards'
@@ -114,9 +114,11 @@ export function Dashboard() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-            <Car className="w-8 h-8 text-primary animate-pulse" />
-          </div>
+          <img
+            src="/logo-symbole.png"
+            alt="Good Entrepreneur"
+            className="w-16 h-auto mx-auto mb-4 animate-pulse"
+          />
           <p className="text-muted-foreground font-medium">Chargement...</p>
           <p className="text-xs text-muted-foreground mt-1">FleetManager</p>
         </div>
@@ -132,9 +134,11 @@ export function Dashboard() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                <Car className="w-5 h-5 text-primary-foreground" />
-              </div>
+              <img
+                src="/logo-symbole.png"
+                alt="Good Entrepreneur"
+                className="h-10 w-auto"
+              />
               <div className="hidden sm:block">
                 <h1 className="font-bold text-lg text-foreground">FleetManager</h1>
                 <p className="text-xs text-muted-foreground -mt-0.5">Gestion de flotte</p>

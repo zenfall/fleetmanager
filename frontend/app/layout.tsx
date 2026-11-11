@@ -8,21 +8,10 @@ export const metadata: Metadata = {
   title: 'FleetManager - Gestion de Flotte',
   description: 'Application de suivi de flotte automobile - Versements, Vidanges, GPS, Dépenses',
   generator: 'v0.app',
+  // Outil interne : ne doit pas apparaitre dans les moteurs de recherche
+  robots: { index: false, follow: false },
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
+    icon: [{ url: '/icon-32.png', type: 'image/png', sizes: '32x32' }],
     apple: '/apple-icon.png',
   },
 }

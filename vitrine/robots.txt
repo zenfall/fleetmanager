@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /README.txt
+
+Sitemap: https://good-entrepreneur.sn/sitemap.xml

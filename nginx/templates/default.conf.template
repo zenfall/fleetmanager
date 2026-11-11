@@ -83,6 +83,7 @@ server {
     http2 on;
     server_name ${APP_DOMAIN};
     include snippets/tls.conf;
+    include snippets/noindex.conf;
 
     location / {
         set $frontend http://frontend:3000;
@@ -97,6 +98,7 @@ server {
     http2 on;
     server_name ${API_DOMAIN};
     include snippets/tls.conf;
+    include snippets/noindex.conf;
 
     client_max_body_size 10m;
 

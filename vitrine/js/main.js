@@ -19,6 +19,35 @@
   $$('.js-wa').forEach(a => { a.href = wa(a.dataset.msg || "Bonjour Good Entrepreneur, je souhaite un renseignement."); a.target = "_blank"; a.rel = "noopener"; });
   $$('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 
+  /* ---- Données structurées (référencement Google) ----
+     Fiche entreprise générée à partir de config.js ; les valeurs d'exemple
+     (« 00 000 », « Adresse du siège ») sont ignorées tant qu'elles ne sont pas remplacées. */
+  (() => {
+    const SITE = "https://good-entrepreneur.sn";
+    const real = v => v && !/00 000|Adresse du siège|^221000/.test(v);
+    const org = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": SITE + "/#entreprise",
+      name: "Good Entrepreneur SAS",
+      url: SITE + "/",
+      logo: SITE + "/img/logo.png",
+      image: SITE + "/img/og-image.jpg",
+      description: "Centrale d'achat, import-export et transport de personnes avec chauffeur (VTC) au Sénégal.",
+      foundingDate: "2022",
+      areaServed: { "@type": "Country", name: "Sénégal" },
+      address: { "@type": "PostalAddress", addressCountry: "SN" }
+    };
+    if (real(C.email)) org.email = C.email;
+    const phones = (C.telephones || []).filter(real);
+    if (phones.length) org.telephone = phones[0];
+    if (real(C.adresse)) org.address.streetAddress = C.adresse;
+    const ld = document.createElement("script");
+    ld.type = "application/ld+json";
+    ld.textContent = JSON.stringify(org);
+    document.head.appendChild(ld);
+  })();
+
   /* ---- Carte ---- */
   const map = $("#map");
   if (map) {
