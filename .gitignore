@@ -1,0 +1,11 @@
+# Secrets : ne jamais commiter le .env (les *.example restent versionnes)
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Artefacts de build
+backend/target/
+
+# Systeme / editeurs
+.DS_Store

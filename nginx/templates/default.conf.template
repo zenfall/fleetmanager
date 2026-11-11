@@ -1,0 +1,108 @@
+# Template transforme au demarrage du container (envsubst).
+# Seules les variables d'environnement definies (SITE_DOMAIN, APP_DOMAIN, API_DOMAIN)
+# sont remplacees ; les variables nginx ($host, $uri...) restent intactes.
+
+# DNS interne Docker, resolu a chaque requete : nginx ne plante pas si un container
+# n'est pas encore demarre, et suit les changements d'IP apres un redeploiement.
+resolver 127.0.0.11 valid=10s ipv6=off;
+
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+server_tokens off;
+
+# ---------- HTTP : challenge Let's Encrypt + redirection vers HTTPS ----------
+server {
+    listen 80 default_server;
+    server_name _;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# ---------- HTTPS : refuse les noms de domaine inconnus (ex. acces par IP) ----------
+server {
+    listen 443 ssl default_server;
+    ssl_reject_handshake on;
+}
+
+# ---------- Site vitrine ----------
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name www.${SITE_DOMAIN};
+    include snippets/tls.conf;
+    return 301 https://${SITE_DOMAIN}$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name ${SITE_DOMAIN};
+    include snippets/tls.conf;
+
+    root /usr/share/nginx/vitrine;
+    index index.html;
+
+    gzip on;
+    gzip_types text/css application/javascript image/svg+xml;
+
+    location / {
+        # /contact sert aussi contact.html
+        try_files $uri $uri.html $uri/ =404;
+    }
+
+    # Pas de noms de fichiers versionnes : cache court pour que les modifications
+    # (notamment js/config.js) soient visibles rapidement.
+    location ~* \.(css|js)$ {
+        expires 1h;
+    }
+
+    location ~* \.(png|jpe?g|webp|gif|svg|ico|woff2)$ {
+        expires 30d;
+    }
+
+    # Documentation interne du site, pas destinee au public
+    location = /README.txt {
+        return 404;
+    }
+
+    error_page 404 /index.html;
+}
+
+# ---------- Application FleetManager (Next.js) ----------
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name ${APP_DOMAIN};
+    include snippets/tls.conf;
+
+    location / {
+        set $frontend http://frontend:3000;
+        proxy_pass $frontend;
+        include snippets/proxy.conf;
+    }
+}
+
+# ---------- API FleetManager (Spring Boot) ----------
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name ${API_DOMAIN};
+    include snippets/tls.conf;
+
+    client_max_body_size 10m;
+
+    location / {
+        set $backend http://backend:8080;
+        proxy_pass $backend;
+        include snippets/proxy.conf;
+    }
+}

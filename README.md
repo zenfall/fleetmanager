@@ -19,7 +19,10 @@ roles **ADMIN / SUPERVISEUR / AGENT**, avec vue 360 pour le superviseur.
 fleetmanager/
 ├── backend/            # API Spring Boot (Java 17)
 ├── frontend/           # Application Next.js (React)
-├── docker-compose.yml  # Orchestration complete (postgres + backend + frontend)
+├── nginx/              # Reverse proxy HTTPS (production)
+├── vitrine/            # Site vitrine du client (HTML statique)
+├── scripts/            # init-letsencrypt.sh (certificat HTTPS)
+├── docker-compose.yml  # Orchestration complete (postgres + backend + frontend + nginx)
 └── .env.example        # Variables d'environnement a copier en .env
 ```
 
@@ -41,6 +44,68 @@ Au premier demarrage, un compte **ADMIN** est cree automatiquement avec les iden
 `APP_BOOTSTRAP_ADMIN_EMAIL` / `APP_BOOTSTRAP_ADMIN_PASSWORD` definis dans `.env`. Connectez-vous
 avec ce compte pour creer les autres utilisateurs (Superviseurs, Agents) depuis le menu
 "Gestion utilisateurs".
+
+## Deploiement en production (serveur) : app + site vitrine
+
+Un seul serveur heberge l'application FleetManager **et** le site vitrine du client
+(dossier `vitrine/`, HTML statique). Nginx est le seul service expose sur Internet :
+
+```
+https://good-entrepreneur.sn       -> site vitrine (fichiers statiques de vitrine/)
+https://www.good-entrepreneur.sn   -> redirection vers good-entrepreneur.sn
+https://app.good-entrepreneur.sn   -> frontend Next.js (:3000)
+https://api.good-entrepreneur.sn   -> backend Spring Boot (:8080)
+```
+
+Les ports 3000 / 8080 / 5432 ne sont ouverts que sur `127.0.0.1` : inaccessibles depuis
+Internet, mais toujours utilisables en local pour le developpement.
+
+### 1. DNS (zone OVH)
+
+Un enregistrement A **unique** vers l'IP du serveur pour `good-entrepreneur.sn`, `www`,
+`app` et `api`. Supprimer les A/CNAME crees par defaut par OVH (ex. `213.186.33.5`).
+Verification : `dig +short www.good-entrepreneur.sn` doit renvoyer une seule IP.
+
+### 2. Preparation du serveur (une seule fois)
+
+```bash
+# Docker + plugin compose
+curl -fsSL https://get.docker.com | sh
+
+# Pare-feu : SSH + HTTP + HTTPS uniquement
+ufw allow OpenSSH && ufw allow 80/tcp && ufw allow 443/tcp && ufw enable
+
+# Recommande si le serveur a moins de 4 Go de RAM (builds Maven + Next.js)
+fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+echo '/swapfile none swap sw 0 0' >> /etc/fstab
+```
+
+### 3. Installation
+
+```bash
+git clone git@github.com:zenfall/fleetmanager.git && cd fleetmanager
+cp .env.production.example .env
+nano .env   # remplacer chaque A_GENERER (openssl rand -base64 48)
+```
+
+### 4. Premier lancement + certificat HTTPS (une seule fois)
+
+```bash
+./scripts/init-letsencrypt.sh --staging   # recommande : test sans quota Let's Encrypt
+./scripts/init-letsencrypt.sh             # certificat reel
+docker compose up -d --build
+```
+
+Le renouvellement des certificats est ensuite automatique.
+
+### Mises a jour
+
+```bash
+git pull && docker compose up -d --build
+```
+
+**Site vitrine seul** : les fichiers de `vitrine/` sont servis directement, une modification
+(par ex. `vitrine/js/config.js` : coordonnees, photos, vehicules) est visible sans redemarrage.
 
 ## Roles et permissions
 

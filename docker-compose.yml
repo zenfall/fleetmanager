@@ -12,7 +12,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      # Accessible uniquement depuis la machine elle-meme (jamais depuis Internet)
+      - '127.0.0.1:5432:5432'
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-fleetmanager}']
       interval: 10s
@@ -40,8 +41,11 @@ services:
       APP_JWT_REFRESH_EXPIRATION_MS: ${APP_JWT_REFRESH_EXPIRATION_MS:-604800000}
       APP_BOOTSTRAP_ADMIN_EMAIL: ${APP_BOOTSTRAP_ADMIN_EMAIL:-admin@fleetmanager.local}
       APP_BOOTSTRAP_ADMIN_PASSWORD: ${APP_BOOTSTRAP_ADMIN_PASSWORD:?Definir APP_BOOTSTRAP_ADMIN_PASSWORD dans .env}
+      # Derriere nginx : tenir compte de X-Forwarded-Proto/Host (URLs https correctes, Swagger...)
+      SERVER_FORWARD_HEADERS_STRATEGY: framework
     ports:
-      - '8080:8080'
+      # En production, le trafic public passe par nginx (API_DOMAIN)
+      - '127.0.0.1:8080:8080'
     networks:
       - fleetmanager-net
 
@@ -56,9 +60,50 @@ services:
     depends_on:
       - backend
     ports:
-      - '3000:3000'
+      # En production, le trafic public passe par nginx (APP_DOMAIN)
+      - '127.0.0.1:3000:3000'
     networks:
       - fleetmanager-net
+
+  # ---------- Reverse proxy (production uniquement) ----------
+  # Seul service expose sur Internet (80/443). Sert le site vitrine et redirige
+  # APP_DOMAIN -> frontend et API_DOMAIN -> backend.
+  # Active par le profil "prod" (COMPOSE_PROFILES=prod dans le .env du serveur).
+  nginx:
+    build:
+      context: ./nginx
+    container_name: fleetmanager-nginx
+    restart: unless-stopped
+    profiles: ['prod']
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN:-}
+      APP_DOMAIN: ${APP_DOMAIN:-}
+      API_DOMAIN: ${API_DOMAIN:-}
+    volumes:
+      - ./vitrine:/usr/share/nginx/vitrine:ro
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot:ro
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - fleetmanager-net
+
+  # ---------- Certificats HTTPS Let's Encrypt (production uniquement) ----------
+  # Premiere obtention : ./scripts/init-letsencrypt.sh, puis renouvellement automatique
+  # (verification toutes les 12 h, nginx recharge les certificats toutes les 6 h).
+  certbot:
+    image: certbot/certbot:v2.11.0
+    container_name: fleetmanager-certbot
+    restart: unless-stopped
+    profiles: ['prod']
+    volumes:
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    entrypoint: /bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done'
 
 networks:
   fleetmanager-net:
@@ -66,3 +111,5 @@ networks:
 
 volumes:
   postgres_data:
+  certbot_conf:
+  certbot_www:
