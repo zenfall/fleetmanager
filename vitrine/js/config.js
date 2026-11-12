@@ -24,10 +24,10 @@ window.GE_CONFIG = {
 
   // Les cinq véhicules de la flotte
   vehicules: [
-   // { nom: "Véhicule 1", type: "Berline", places: 4, bagages: 3, clim: true, photo: "" },
     { nom: "Véhicule 1", type: "Berline", places: 4, bagages: 3, clim: true, photo: "" },
     { nom: "Véhicule 2", type: "Berline", places: 4, bagages: 3, clim: true, photo: "" },
-    { nom: "Véhicule ", type: "SUV",     places: 6, bagages: 4, clim: true, photo: "" },
-    { nom: "Véhicule 4", type: "Van",     places: 7, bagages: 6, clim: true, photo: "" }
+    { nom: "Véhicule 3", type: "Berline", places: 4, bagages: 3, clim: true, photo: "" },
+    { nom: "Véhicule 4", type: "SUV",     places: 6, bagages: 4, clim: true, photo: "" },
+   // { nom: "Véhicule 5", type: "Van",     places: 7, bagages: 6, clim: true, photo: "" }
   ]
 };
