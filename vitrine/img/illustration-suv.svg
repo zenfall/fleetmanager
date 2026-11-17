@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 200" role="img" aria-label="Illustration d'un SUV">
+  <ellipse cx="206" cy="184" rx="172" ry="8" fill="#0F241A" opacity=".12"/>
+  <rect x="112" y="43" width="150" height="5" rx="2.5" fill="#1E5139"/>
+  <path fill="#143D2B" d="M40 146L40 104Q40 94 50 92L70 90L100 56Q106 50 116 50L262 50Q274 50 282 58L322 96L352 102Q372 106 372 126L372 148Q372 156 364 156L337 156A32 32 0 0 0 273 156L142 156A32 32 0 0 0 78 156L48 156Q40 156 40 146Z"/>
+  <path fill="#D6EEF2" d="M80 92L104 63Q109 57 117 57L180 57L180 92Z"/>
+  <path fill="#D6EEF2" d="M188 57L258 57Q268 57 275 64L305 92L188 92Z"/>
+  <path d="M184 92V152M90 92H320" stroke="#1E5139" stroke-width="2.5"/>
+  <rect x="48" y="118" width="318" height="4" rx="2" fill="#F68D0A"/>
+  <rect x="354" y="108" width="16" height="8" rx="3" fill="#FFA232"/>
+  <rect x="40" y="106" width="8" height="12" rx="2" fill="#E34940"/>
+  <rect x="200" y="100" width="16" height="3" rx="1.5" fill="#DCE5DC"/>
+  <rect x="110" y="100" width="16" height="3" rx="1.5" fill="#DCE5DC"/>
+  <g fill="#0F241A"><circle cx="110" cy="156" r="26"/><circle cx="305" cy="156" r="26"/></g>
+  <g fill="#DCE5DC"><circle cx="110" cy="156" r="12"/><circle cx="305" cy="156" r="12"/></g>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 200" role="img" aria-label="Illustration d'un van">
+  <ellipse cx="206" cy="184" rx="176" ry="8" fill="#0F241A" opacity=".12"/>
+  <path fill="#143D2B" d="M36 148L36 70Q36 44 62 44L270 44Q290 44 300 58L332 100L356 106Q374 110 374 128L374 148Q374 156 366 156L342 156A30 30 0 0 0 282 156L134 156A30 30 0 0 0 74 156L44 156Q36 156 36 148Z"/>
+  <g fill="#D6EEF2">
+    <rect x="50" y="58" width="68" height="36" rx="6"/>
+    <rect x="128" y="58" width="68" height="36" rx="6"/>
+    <rect x="206" y="58" width="58" height="36" rx="6"/>
+    <path d="M274 58L290 58Q296 58 300 64L324 96L274 96Z"/>
+  </g>
+  <path d="M201 58V152M269 58V152" stroke="#1E5139" stroke-width="2.5"/>
+  <rect x="44" y="118" width="324" height="4" rx="2" fill="#F68D0A"/>
+  <rect x="358" y="112" width="14" height="8" rx="3" fill="#FFA232"/>
+  <rect x="36" y="104" width="8" height="14" rx="2" fill="#E34940"/>
+  <rect x="180" y="104" width="14" height="3" rx="1.5" fill="#DCE5DC"/>
+  <rect x="276" y="104" width="14" height="3" rx="1.5" fill="#DCE5DC"/>
+  <g fill="#0F241A"><circle cx="104" cy="156" r="24"/><circle cx="312" cy="156" r="24"/></g>
+  <g fill="#DCE5DC"><circle cx="104" cy="156" r="11"/><circle cx="312" cy="156" r="11"/></g>
+</svg>

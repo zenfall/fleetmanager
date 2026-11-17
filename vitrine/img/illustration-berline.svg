@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 200" role="img" aria-label="Illustration d'une berline">
+  <ellipse cx="206" cy="184" rx="172" ry="8" fill="#0F241A" opacity=".12"/>
+  <path fill="#143D2B" d="M40 148Q40 126 62 121L122 114L162 82Q170 74 184 74L262 74Q276 74 286 82L326 112L352 117Q372 121 372 140L372 150Q372 156 364 156L335 156A30 30 0 0 0 275 156L140 156A30 30 0 0 0 80 156L48 156Q40 156 40 148Z"/>
+  <path fill="#D6EEF2" d="M134 112L166 86Q172 81 182 81L218 81L218 112Z"/>
+  <path fill="#D6EEF2" d="M226 81L260 81Q271 81 279 88L313 112L226 112Z"/>
+  <path d="M222 112V152M150 112H330" stroke="#1E5139" stroke-width="2.5"/>
+  <rect x="48" y="128" width="318" height="4" rx="2" fill="#F68D0A"/>
+  <rect x="356" y="122" width="14" height="7" rx="3" fill="#FFA232"/>
+  <rect x="40" y="124" width="8" height="8" rx="2" fill="#E34940"/>
+  <rect x="238" y="118" width="16" height="3" rx="1.5" fill="#DCE5DC"/>
+  <rect x="160" y="118" width="16" height="3" rx="1.5" fill="#DCE5DC"/>
+  <g fill="#0F241A"><circle cx="110" cy="156" r="24"/><circle cx="305" cy="156" r="24"/></g>
+  <g fill="#DCE5DC"><circle cx="110" cy="156" r="11"/><circle cx="305" cy="156" r="11"/></g>
+</svg>

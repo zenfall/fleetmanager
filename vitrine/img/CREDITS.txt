@@ -1,0 +1,14 @@
+Photos issues de banques d'images (licence Unsplash : usage commercial gratuit,
+attribution non obligatoire mais appreciee) :
+
+centrale-entrepot.jpg
+  Ruchindra Gunasekara - https://unsplash.com/photos/large-warhause-GK8x_XCcDZg
+
+accueil-centrale-entrepot.jpg
+  CHUTTERSNAP - https://unsplash.com/photos/brown-cardboard-boxes-on-white-metal-rack-BNBA1h-NgdY
+
+import-port-conteneurs.jpg
+  Ali Mkumbwa - Port de Dar es Salaam - https://unsplash.com/photos/Annl9CjEaEs
+
+Toutes les autres photos (vehicules) appartiennent a Good Entrepreneur SAS.
+A remplacer idealement par de vraies photos de l'entreprise (entrepot, marchandises).

@@ -65,12 +65,20 @@
 
   /* ---- Flotte ---- */
   const fleet = $("#fleet");
+  // Sans vraie photo : illustration selon le type de véhicule (jamais présentée comme une photo)
+  const illustration = type => {
+    const t = String(type).toLowerCase();
+    return t.includes("van") || t.includes("minibus") ? "van" : t.includes("suv") || t.includes("4x4") ? "suv" : "berline";
+  };
   if (fleet && C.vehicules) {
     C.vehicules.forEach((v, i) => {
       const el = document.createElement("article");
       el.className = "car";
+      const visuel = v.photo
+        ? `<div class="photo"><span>Photo du ${esc(v.nom.toLowerCase())}</span></div>`
+        : `<div class="photo illu"><img src="img/illustration-${illustration(v.type)}.svg" alt="" loading="lazy"><span>Photo à venir</span></div>`;
       el.innerHTML = `
-        <div class="photo"><span>Photo du ${esc(v.nom.toLowerCase())}</span></div>
+        ${visuel}
         <div class="car-body">
           <div class="car-top"><h3>${esc(v.nom)}</h3><span class="plate">GE-0${i + 1}</span></div>
           <div class="specs">
@@ -82,6 +90,10 @@
           <a class="btn btn-line-dark btn-sm js-wa" href="#" data-msg="Bonjour, je souhaite réserver le ${esc(v.nom)} (${esc(v.type)})." target="_blank" rel="noopener">${ICON("wa")}Réserver ce véhicule</a>
         </div>`;
       putPhoto(el.querySelector(".photo"), v.photo, v.nom);
+      // Photo d'un modèle similaire (pas le véhicule réel) : mention obligatoire
+      if (v.photo && v.photoIllustrative) {
+        el.querySelector(".photo").insertAdjacentHTML("beforeend", '<span class="badge-illu">Photo non contractuelle</span>');
+      }
       el.querySelector(".js-wa").href = wa(el.querySelector(".js-wa").dataset.msg);
       fleet.appendChild(el);
     });
